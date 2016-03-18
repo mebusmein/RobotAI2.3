@@ -34,7 +34,6 @@ public class OccupancyMap {
 	private final ArrayList<ActionListener> actionListenerList;
 	private Environment environment;
 
-
 	public OccupancyMap() {
 		this.grid = new char[MAP_WIDTH / CELL_DIMENSION][MAP_HEIGHT / CELL_DIMENSION];
 
@@ -45,7 +44,6 @@ public class OccupancyMap {
 		}
 
 		this.actionListenerList = new ArrayList<ActionListener>();
-
 
 	}
 
@@ -70,23 +68,22 @@ public class OccupancyMap {
 			}
 		}
 
-		//paint robot position on grid
+		// paint robot position on grid
 		Position robotPos = environment.getRobot().getPlatform().getRobotPosition();
-		//environment.getRobot().readPosition(robotPos);
+		// environment.getRobot().readPosition(robotPos);
 
 		int robotX = (int) robotPos.getX() / CELL_DIMENSION;
 		int robotY = (int) robotPos.getY() / CELL_DIMENSION;
 		this.grid[robotX][robotY] = ROBOT;
 
-
 		this.processEvent(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
 	}
-
 
 	/**
 	 * This method allows other objects to register as ActionListeners.
 	 *
-	 * @param listener the ActionListener to add to the watchlist
+	 * @param listener
+	 *            the ActionListener to add to the watchlist
 	 */
 	public void addActionListener(ActionListener listener) {
 		this.actionListenerList.add(listener);
@@ -95,9 +92,11 @@ public class OccupancyMap {
 	}
 
 	/**
-	 * This method will remove the given ActionListener from the registered ActionListeners.
+	 * This method will remove the given ActionListener from the registered
+	 * ActionListeners.
 	 *
-	 * @param listener the ActionListener to remove from the watchlist
+	 * @param listener
+	 *            the ActionListener to remove from the watchlist
 	 */
 	public void removeActionListener(ActionListener listener) {
 		if (actionListenerList.contains(listener)) {
@@ -108,7 +107,8 @@ public class OccupancyMap {
 	/**
 	 * This method is intended to notify all ActionListeners of a event.
 	 *
-	 * @param event the event to be processed
+	 * @param event
+	 *            the event to be processed
 	 */
 	public void processEvent(ActionEvent event) {
 
@@ -187,5 +187,41 @@ public class OccupancyMap {
 			}
 		}
 	}
+	
+	public boolean checkCompleteMap() {
+		for (int i = 0; i < MAP_WIDTH / CELL_DIMENSION; i++) {
+			for (int j = 0; j < MAP_HEIGHT / CELL_DIMENSION; j++) {
+				if(grid[i][j] == OBSTACLE) {
+					if(!isObstacleComplete(i, j)) {
+						return false;
+					}
+				}
+			}
+		}
+		return true;
+	}
+	
+	private boolean isObstacleComplete(int width, int height) {
+		int counter = 0;
+		if(grid[width + 1][height] == OBSTACLE) {
+			counter++;
+		}
+		if(grid[width][height + 1] == OBSTACLE) {
+			counter++;
+		}
+		if(grid[width - 1][height] == OBSTACLE) {
+			counter++;
+		}
+		if(grid[width][height - 1] == OBSTACLE) {
+			counter++;
+		}
+		if(counter >= 2) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
 
 }

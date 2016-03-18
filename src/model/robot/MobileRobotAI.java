@@ -75,7 +75,7 @@ public class MobileRobotAI implements Runnable {
 
 				boolean mappingRoom = true;
 
-				while (mappingRoom){
+				while (mappingRoom && !map.checkCompleteMap()){
 					getPos(input,position);
 					scan(input,position,measures);
 					if (!checkWallRight(measures,40,80,16)){
