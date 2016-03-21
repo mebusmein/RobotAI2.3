@@ -79,6 +79,7 @@ public class MobileRobotAI implements Runnable {
 					getPos(input,position);
 					scan(input,position,measures);
 					if (!checkWallRight(measures,40,60,20)){
+						moveForward(input,5);
 						rotateRight(input,90);
 						moveForward(input,25);
 					}else{
