@@ -78,9 +78,9 @@ public class MobileRobotAI implements Runnable {
 				while (mappingRoom && !map.checkCompleteMap()){
 					getPos(input,position);
 					scan(input,position,measures);
-					if (!checkWallRight(measures,30,50,5)){
+					if (!checkWallRight(measures,40,60,20)){
 						rotateRight(input,90);
-						moveForward(input,35);
+						moveForward(input,25);
 					}else{
 						if (checkWallFront(measures,40,40)){
 							int distance = checkWallRange(measures,40,40);
