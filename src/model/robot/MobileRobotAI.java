@@ -78,11 +78,13 @@ public class MobileRobotAI implements Runnable {
 				while (mappingRoom && !map.checkCompleteMap()){
 					getPos(input,position);
 					scan(input,position,measures);
-					if (!checkWallRight(measures,40,80,16)){
+					if (!checkWallRight(measures,30,50,5)){
 						rotateRight(input,90);
-						moveForward(input,30);
+						moveForward(input,35);
 					}else{
-						if (checkWallFront(measures,40,30)){
+						if (checkWallFront(measures,40,40)){
+							int distance = checkWallRange(measures,40,40);
+							moveForward(input,distance - 15);
 							rotateLeft(input,90);
 						}else {
 							moveForward(input,25);
@@ -106,6 +108,16 @@ public class MobileRobotAI implements Runnable {
 				return true;
 		}
 		return false;
+	}
+
+	private int checkWallRange(double[] measures, int width, int range){
+		int shortRange = range;
+		for (int i = 0; i < width; i++){
+			int number = ((359-(width/2))+i)%360;
+			if (measures[number] < shortRange)
+				shortRange = (int)measures[number];
+		}
+		return shortRange;
 	}
 
 	private boolean checkWallRight(double[] measures, int width, int range, int displacement){
